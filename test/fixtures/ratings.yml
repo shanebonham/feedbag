@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ticket: 1
+  access_key: MyString
+  value: MyString
+  agent_email: MyString
+
+two:
+  ticket: 1
+  access_key: MyString
+  value: MyString
+  agent_email: MyString
