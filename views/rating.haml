@@ -1,2 +1,8 @@
-%p= @request_id
+%p= @accesskey
+%p= @request
+%p= @request_password
 %p= @timestamp
+%p= @auth
+
+%p= @dump.request_history.first.dtGMTChange
+%p= @request_history.first.inspect
