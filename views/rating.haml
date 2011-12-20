@@ -1,8 +1,8 @@
-%p= @accesskey
-%p= @request
-%p= @request_password
-%p= @timestamp
-%p= @auth
-
-%p= @dump.request_history.first.dtGMTChange
-%p= @request_history.first.inspect
+%h1
+  Hey, the date of this request is
+  %code #{@timestamp}
+%h1 Here&#8217;s the matching reply:
+%ul
+  = get_reply(@request_history, @timestamp)
+%h1 And here&#8217;s all the info:
+= @dump

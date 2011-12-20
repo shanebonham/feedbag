@@ -5,6 +5,18 @@ set :haml, { :attr_wrapper => '"' }
 
 help_spot = HelpSpot.new 'http://support.monkdevelopment.com/api/', 'shane@monkdevelopment.com', 'eYTjj7Z4Ec'
 
+helpers do
+  def get_reply(request_history, timestamp)
+    stuff = ''
+    request_history.each do |x|
+      if (x.dtGMTChange.delete(' ') == timestamp.delete(' ')) && !x.tLog
+        stuff = stuff + "<li>#{x.dtGMTChange} - #{x.xRequestHistory}</li>\n"
+      end
+    end
+    return stuff
+  end
+end
+
 get '/' do
   haml :home
 end
@@ -16,9 +28,5 @@ get '/rating/:accesskey/:timestamp' do
   @timestamp = params[:timestamp]
   @dump = help_spot.request @request
   @request_history = @dump.request_history
-  @auth = "sadly, no"
-  if help_spot.authenticated?
-    @auth = "HELL YES!"
-  end
   haml :rating
 end
