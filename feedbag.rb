@@ -40,14 +40,13 @@ get '/' do
   haml :home
 end
 
-get '/rating/:rating/:accesskey/:timestamp/' do
+get '/rating/:rating/:accesskey/' do
   @accesskey = params[:accesskey]
   r = Rating.new
   r.rating = params[:rating]
-  r.timestamp = params[:timestamp]
   r.request = @accesskey[0,5]
   r.request_password = @accesskey[5,5]
   r.created_at = Time.now
   r.save
-  redirect '/'
+  haml :rating
 end
