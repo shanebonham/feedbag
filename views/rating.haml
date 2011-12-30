@@ -1,8 +1,3 @@
 %h1
-  Hey, the date of this request is
-  %code #{@timestamp}
-%h1 Here&#8217;s the matching reply:
-%ul
-  = get_reply(@request_history, @timestamp)
-%h1 And here&#8217;s all the info:
-= @dump
+  %a{:href => "http://support.monkdevelopment.com/admin.php?pg=request&reqid=#{@request}#request-history-note-#{get_reply(@request, @timestamp)}", :target => '_blank'} Reply #{get_reply(@request, @timestamp)}
+  was rated "#{@rating}"

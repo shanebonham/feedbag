@@ -1,16 +1,35 @@
 require 'sinatra'
 require 'help_spot'
+require 'data_mapper'
 
 set :haml, { :attr_wrapper => '"' }
 
-help_spot = HelpSpot.new 'http://support.monkdevelopment.com/api/', 'shane@monkdevelopment.com', 'eYTjj7Z4Ec'
+DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/feedbag.db")
+
+class Rating
+  include DataMapper::Resource
+  property :id, Serial
+  property :rating, Enum[:good, :okay, :bad]
+  property :timestamp, String
+  property :agent, String
+  property :request, String
+  property :request_password, String
+  property :reply, String
+  property :feedback, String
+  property :created_at, DateTime
+end
+
+DataMapper.finalize.auto_upgrade!
 
 helpers do
-  def get_reply(request_history, timestamp)
+  def get_reply(request, timestamp)
+    help_spot = HelpSpot.new 'http://support.monkdevelopment.com/api/', 'shane@monkdevelopment.com', 'eYTjj7Z4Ec'
+    response = help_spot.request request
+    request_history = response.request_history
     stuff = ''
     request_history.each do |x|
       if (x.dtGMTChange.delete(' ') == timestamp.delete(' ')) && !x.tLog
-        stuff = stuff + "<li>#{x.dtGMTChange} - #{x.xRequestHistory}</li>\n"
+        stuff = x.xRequestHistory
       end
     end
     return stuff
@@ -21,12 +40,14 @@ get '/' do
   haml :home
 end
 
-get '/rating/:accesskey/:timestamp' do
+get '/rating/:rating/:accesskey/:timestamp/' do
   @accesskey = params[:accesskey]
-  @request = @accesskey[0,5]
-  @request_password = @accesskey[5,5]
-  @timestamp = params[:timestamp]
-  @dump = help_spot.request @request
-  @request_history = @dump.request_history
-  haml :rating
+  r = Rating.new
+  r.rating = params[:rating]
+  r.timestamp = params[:timestamp]
+  r.request = @accesskey[0,5]
+  r.request_password = @accesskey[5,5]
+  r.created_at = Time.now
+  r.save
+  redirect '/'
 end
