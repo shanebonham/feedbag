@@ -1,0 +1,5 @@
+%p= "You claimed it was &#8220;#{@rating.rating}&#8221;. Tell us more:"
+%form{:method => 'post', :action => "/#{@rating.id}"}
+  %input{:type => "hidden", :_method => "put"}
+  %textarea
+  %input(type="submit")
