@@ -1,9 +1,6 @@
 require 'sinatra'
 require 'help_spot'
 require 'data_mapper'
-require 'haml'
-
-set :haml, { :attr_wrapper => '"' }
 
 DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/feedbag.db")
 
@@ -37,7 +34,7 @@ DataMapper.finalize.auto_upgrade!
 # end
 
 get '/' do
-  haml :home
+  erb :home
 end
 
 get '/rate/:accesskey/:rating' do
@@ -53,7 +50,7 @@ end
 
 get '/rating/:accesskey/:id' do
   @rating = Rating.get params[:id]
-  haml :feedback
+  erb :feedback
 end
 
 put '/rating/:id' do

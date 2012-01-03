@@ -43,7 +43,6 @@ GEM
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
     fastercsv (1.5.4)
-    haml (3.1.4)
     hashie (0.1.8)
     help_spot (0.0.7)
       hashie (~> 0.1.8)
@@ -76,7 +75,6 @@ PLATFORMS
 
 DEPENDENCIES
   data_mapper
-  haml
   help_spot
   rack-flash
   sinatra

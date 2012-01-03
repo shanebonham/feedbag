@@ -1,0 +1,6 @@
+<p>You claimed it was &#8220;<%= @rating.rating %>&#8221;. Tell us more:</p>
+<form action="/<%= @rating.id %>" method="post" accept-charset="utf-8">
+  <input type="hidden" name="_method" value="put">
+  <textarea></textarea>
+  <input type="submit">
+</form>
