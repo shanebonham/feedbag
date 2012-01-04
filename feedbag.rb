@@ -12,7 +12,7 @@ class Rating
   property :request, String
   property :request_password, String
   property :reply, String
-  property :feedback, String
+  property :feedback, Text
   property :created_at, DateTime
 end
 
@@ -55,4 +55,7 @@ end
 
 put '/rating/:id' do
   r = Rating.get params[:id]
+  r.feedback = params[:feedback]
+  r.save
+  redirect '/'
 end
